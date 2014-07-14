@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>MEI Editor - Verovio Demo</title>
+
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="meix.js/css/meiEditor.css" />
+        <link rel="stylesheet" href="verovioEditor.css" />
+        <link rel="stylesheet" href="vida.js/vida.css">
+
+        <!--foreign libraries -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="verovio-toolkit-0.9.1.js"></script>
+        
+        <script src="meix.js/js/lib/require.js"></script>
+        <script src="meix.js/js/local/meiEditorPreloader.js"></script>
+        <script src="vida.js/vida.js"></script>
+        <style>
+        #verovio-wrapper{
+            position:absolute;
+            display:block;
+            padding:0em;
+            margin:0em;
+            top:0em;
+            margin-left: 50%;
+            width:50%;
+            height:100%;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="mei-editor"></div>
+        <div id="verovio-wrapper"></div>
+    </body>
+
+    <script>
+
+        $("#verovio-wrapper").vida({});
+        var verovioInstance = $("#verovio-wrapper").data('vida');
+
+        var element = "#mei-editor";
+        var options = 
+        {
+            'meiEditorLocation': 'meix.js/',
+            'validatorLink': 'meix.js/validation/', 
+            'xmllintServer': 'http://cantus.simssa.ca/nodeLint/',
+            'verovioInstance': verovioInstance,
+            'pageTitle': 'Verovio Editor'
+        };
+        var plugins = ["meiEditorVerovio.js"];
+
+        var meiEditor = new MeiEditor(element, options, plugins);
+
+    </script>
+</html> 
