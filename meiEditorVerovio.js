@@ -15,8 +15,8 @@ require(['meiEditor'], function(){
                 }
 
                 meiEditor.addToNavbar("Verovio", "verovio");
-                $("#dropdown-verovio").append("<li><a id='update-verovio'>Update Verovio</a></li>");
-                //$("#help-dropdown").append("<li><a id='" + idForThisHelpOption + "-help'>" + nameForThisPlugin + "</a></li>");
+                $("#dropdown-verovio").append("<li><a id='update-verovio'>Update Verovio</a></li>" +
+                    "<li><a id='update-dropdown'>Automatically update:<span style='float:right'><input type='checkbox' id='updateBox'></span></a></li>");
                   
                 $("#update-verovio").on('click', function()
                 {
@@ -27,8 +27,13 @@ require(['meiEditor'], function(){
                     '<h4>Push a file to Verovio:</h4>' +
                     createSelect("Verovio", meiEditorSettings.pageData), 'Submit');
 
-                $("#updateVerovioModal-primary").on('click', function()
+                updateVerovio = function(pageName)
                 {
+                    if(pageName === undefined)
+                    {
+                        pageName = meiEditor.getActivePanel().text();
+                    }
+
                     formatToSave = function(lineIn, indexIn)
                     {          
                         if (lineIn !== "") //if the line's not blank (nothing in MEI should be)
@@ -38,18 +43,32 @@ require(['meiEditor'], function(){
                     };
                     
                     var formattedData = [];
-                    var pageName = $("#selectVerovio").find(":selected").text();
                     var lastRow = meiEditorSettings.pageData[pageName].getSession().doc.getLength() - 1; //0-indexed
 
                     meiEditorSettings.pageData[pageName].getSession().doc.getLines(0, lastRow).forEach(formatToSave); //format each
                     
                     meiEditorSettings.verovioInstance.changePage(formattedData);
+                };
+
+                $("#updateVerovioModal-primary").on('click', function()
+                {
+                    
+                    var pageName = $("#selectVerovio").find(":selected").text();
+                    updateVerovio(pageName);
                     $("#updateVerovioModal-close").trigger('click');
                 });
 
                 meiEditor.events.subscribe("NewFile", function(a, fileName)
                 {
                     $("#selectVerovio").append("<option name='" + fileName + "'>" + fileName + "</option>");
+                });
+
+                meiEditor.events.subscribe("PageEdited", function()
+                {
+                    if($("#updateBox").is(":checked"))
+                    {
+                        updateVerovio();
+                    }
                 });
 
                 return true;
