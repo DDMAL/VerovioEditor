@@ -25,7 +25,7 @@ require(['meiEditor'], function(){
 
                 createModal(meiEditorSettings.element, 'updateVerovioModal', false, 
                     '<h4>Push a file to Verovio:</h4>' +
-                    createSelect("Verovio", meiEditorSettings.pageData), 'Submit');
+                    createSelect("Verovio", meiEditor.getPageTitles()), 'Submit');
 
                 updateVerovio = function(pageName)
                 {
@@ -43,11 +43,11 @@ require(['meiEditor'], function(){
                     };
                     
                     var formattedData = [];
-                    var lastRow = meiEditorSettings.pageData[pageName].getSession().doc.getLength() - 1; //0-indexed
+                    var lastRow = meiEditor.getPageData(pageName).getSession().doc.getLength() - 1; //0-indexed
 
-                    meiEditorSettings.pageData[pageName].getSession().doc.getLines(0, lastRow).forEach(formatToSave); //format each
+                    meiEditor.getPageData(pageName).getSession().doc.getLines(0, lastRow).forEach(formatToSave); //format each
                     
-                    meiEditorSettings.verovioInstance.changePage(formattedData);
+                    meiEditorSettings.verovioInstance.changeMusic(formattedData);
                 };
 
                 $("#updateVerovioModal-primary").on('click', function()
