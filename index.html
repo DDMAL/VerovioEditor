@@ -14,10 +14,11 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script src="verovio-toolkit-0.9.1.js"></script>
+        <script src="vida.js/verovio-toolkit.js"></script>
         
         <script src="meix.js/js/lib/require.js"></script>
         <script src="meix.js/js/local/meiEditorPreloader.js"></script>
+        <script src="d3.js"></script>
         <script src="vida.js/vida.js"></script>
         <style>
         #verovio-wrapper{
@@ -38,7 +39,7 @@
     </body>
 
     <script>
-
+        var vrvToolkit = new verovio.toolkit();
         $("#verovio-wrapper").vida({});
         var verovioInstance = $("#verovio-wrapper").data('vida');
 
@@ -49,11 +50,16 @@
             'validatorLink': 'meix.js/validation/', 
             'xmllintServer': 'http://cantus.simssa.ca/nodeLint/',
             'verovioInstance': verovioInstance,
-            'pageTitle': 'Verovio Editor'
+            'pageTitle': 'Verovio Editor',
+            'initializeWithFile': 'vida.js/Guami_Canzona_24.mei'
         };
         var plugins = ["meiEditorVerovio.js"];
 
         var meiEditor = new MeiEditor(element, options, plugins);
+
+        $(window).on('meiEditorLoaded', function(){
+            meiEditor = $("#mei-editor").data('AceMeiEditor');
+        });
 
     </script>
 </html> 

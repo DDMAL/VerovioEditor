@@ -1,5 +1,4 @@
 require(['meiEditor'], function(){
-
 (function ($)
 {
     window.meiEditorPlugins.push((function()
@@ -31,7 +30,7 @@ require(['meiEditor'], function(){
                 {
                     if(pageName === undefined)
                     {
-                        pageName = meiEditor.getActivePanel().text();
+                        pageName = meiEditor.getActivePageTitle();
                     }
 
                     formatToSave = function(lineIn, indexIn)
@@ -42,11 +41,8 @@ require(['meiEditor'], function(){
                         }
                     };
                     
-                    var formattedData = [];
-                    var lastRow = meiEditor.getPageData(pageName).getSession().doc.getLength() - 1; //0-indexed
+                    var formattedData = meiEditor.getPageData(pageName).getSession().doc.getAllLines().join("\n"); //0-indexed
 
-                    meiEditor.getPageData(pageName).getSession().doc.getLines(0, lastRow).forEach(formatToSave); //format each
-                    
                     meiEditorSettings.verovioInstance.changeMusic(formattedData);
                 };
 
@@ -70,6 +66,32 @@ require(['meiEditor'], function(){
                         updateVerovio();
                     }
                 });
+
+                meiEditor.events.subscribe("VerovioUpdated", function(newMei)
+                {
+                    console.log("Verovio updated?\n\n\n\n\n\n\n", newMei);
+                    var startRow = 0;
+                    var pageTitle = meiEditor.getActivePageTitle();
+                    var editorRef = meiEditor.getPageData(pageTitle);
+                    while(editorRef.session.doc.getLine(startRow).match(/\?xml/g) !== null) startRow++;
+
+                    var length = editorRef.session.doc.getLength();
+                    var aceRange = require('ace/range').Range;
+                    var range = new aceRange(startRow, 0, length, 0);
+
+                    editorRef.session.doc.replace(range, newMei);
+                    meiEditor.reparseAce(pageTitle);
+                });
+
+                meiEditor.edit = function(editorAction)
+                {
+                    meiEditorSettings.verovioInstance.edit(editorAction);
+                };
+
+                meiEditor.updateMEI = function()
+                {
+                    var mei = meiEditorSettings.verovioInstance.getMei();
+                };
 
                 return true;
             }
