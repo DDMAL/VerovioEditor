@@ -1,14 +1,13 @@
-<!doctype html>
-<html lang="en">
+<html lang="en" xml:lang="en" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="utf-8" />
         <title>MEI Editor - Verovio Demo</title>
 
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="meix.js/css/meiEditor.css" />
         <link rel="stylesheet" href="verovioEditor.css" />
-        <link rel="stylesheet" href="vida.js/vida.css">
+        <link rel="stylesheet" href="vida.js/vida.css" />
 
         <!--foreign libraries -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
@@ -16,9 +15,9 @@
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script src="vida.js/verovio-toolkit.js"></script>
         
+        <script src="vida.js/d3.js"></script>
         <script src="meix.js/js/lib/require.js"></script>
         <script src="meix.js/js/local/meiEditorPreloader.js"></script>
-        <script src="d3.js"></script>
         <script src="vida.js/vida.js"></script>
         <style>
         #verovio-wrapper{
@@ -51,7 +50,7 @@
             'xmllintServer': 'http://cantus.simssa.ca/nodeLint/',
             'verovioInstance': verovioInstance,
             'pageTitle': 'Verovio Editor',
-            'initializeWithFile': 'vida.js/Guami_Canzona_24.mei'
+            'initializeWithFile': 'vida.js/Krebs_Trio_Eb_2.mei'
         };
         var plugins = ["meiEditorVerovio.js"];
 

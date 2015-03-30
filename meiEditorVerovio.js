@@ -15,7 +15,7 @@ require(['meiEditor'], function(){
 
                 meiEditor.addToNavbar("Verovio", "verovio");
                 $("#dropdown-verovio").append("<li><a id='update-verovio'>Update Verovio</a></li>" +
-                    "<li><a id='update-dropdown'>Automatically update:<span style='float:right'><input type='checkbox' id='updateBox'></span></a></li>");
+                    "<li><a id='update-dropdown'>Automatically update:<span style='float:right'><input type='checkbox' id='updateBox'/></span></a></li>");
                   
                 $("#update-verovio").on('click', function()
                 {
@@ -69,17 +69,17 @@ require(['meiEditor'], function(){
 
                 meiEditor.events.subscribe("VerovioUpdated", function(newMei)
                 {
-                    console.log("Verovio updated?\n\n\n\n\n\n\n", newMei);
+                    if(newMei === undefined) return;
                     var startRow = 0;
                     var pageTitle = meiEditor.getActivePageTitle();
                     var editorRef = meiEditor.getPageData(pageTitle);
-                    while(editorRef.session.doc.getLine(startRow).match(/\?xml/g) !== null) startRow++;
+                    while(editorRef.getSession().doc.getLine(startRow).match(/\?xml/g) !== null) startRow++;
 
                     var length = editorRef.session.doc.getLength();
                     var aceRange = require('ace/range').Range;
                     var range = new aceRange(startRow, 0, length, 0);
 
-                    editorRef.session.doc.replace(range, newMei);
+                    editorRef.getSession().doc.replace(range, newMei);
                     meiEditor.reparseAce(pageTitle);
                 });
 
