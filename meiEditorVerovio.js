@@ -26,6 +26,8 @@ require(['meiEditor'], function(){
                     '<h4>Push a file to Verovio:</h4>' +
                     createSelect("Verovio", meiEditor.getPageTitles()), 'Submit');
 
+                var recallID;
+
                 updateVerovio = function(pageName)
                 {
                     if(pageName === undefined)
@@ -67,7 +69,7 @@ require(['meiEditor'], function(){
                     }
                 });
 
-                meiEditor.events.subscribe("VerovioUpdated", function(newMei)
+                mei.Events.subscribe("VerovioUpdated", function(newMei)
                 {
                     if(newMei === undefined) return;
                     var startRow = 0;
@@ -81,6 +83,16 @@ require(['meiEditor'], function(){
 
                     editorRef.getSession().doc.replace(range, newMei);
                     meiEditor.reparseAce(pageTitle);
+                    if (recallID) 
+                    {
+                        meiEditor.gotoLineWithID(recallID);
+                    }
+                });
+
+                mei.Events.subscribe("HighlightSelected", function(id)
+                {
+                    meiEditor.gotoLineWithID(id);
+                    recallID = id;
                 });
 
                 meiEditor.edit = function(editorAction)
