@@ -14,8 +14,8 @@ require(['meiEditor'], function(){
                 }
 
                 meiEditor.addToNavbar("Verovio", "verovio");
-                $("#dropdown-verovio").append("<li><a id='update-verovio'>Update Verovio</a></li>" +
-                    "<li><a id='update-dropdown'>Automatically update:<span style='float:right'><input type='checkbox' id='updateBox'/></span></a></li>");
+                $("#dropdown-verovio").append("<li><a id='update-verovio'>Update Verovio</a></li>");
+                    //"<li><a id='update-dropdown'>Automatically update:<span style='float:right'><input type='checkbox' id='updateBox' checked='checked'/></span></a></li>");
                   
                 $("#update-verovio").on('click', function()
                 {
@@ -28,7 +28,7 @@ require(['meiEditor'], function(){
 
                 var recallID;
 
-                updateVerovio = function(pageName)
+                var updateVerovio = function(pageName)
                 {
                     if(pageName === undefined)
                     {
@@ -59,15 +59,16 @@ require(['meiEditor'], function(){
                 meiEditor.events.subscribe("NewFile", function(a, fileName)
                 {
                     $("#selectVerovio").append("<option name='" + fileName + "'>" + fileName + "</option>");
+                    updateVerovio();
                 });
 
-                meiEditor.events.subscribe("PageEdited", function()
-                {
-                    if($("#updateBox").is(":checked"))
-                    {
-                        updateVerovio();
-                    }
-                });
+                // meiEditor.events.subscribe("PageEdited", function()
+                // {
+                //     if($("#updateBox").is(":checked"))
+                //     {
+                //         updateVerovio();
+                //     }
+                // });
 
                 mei.Events.subscribe("VerovioUpdated", function(newMei)
                 {
