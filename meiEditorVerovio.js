@@ -62,28 +62,15 @@ require(['meiEditor'], function(){
                     updateVerovio();
                 });
 
-                // meiEditor.events.subscribe("PageEdited", function()
-                // {
-                //     if($("#updateBox").is(":checked"))
-                //     {
-                //         updateVerovio();
-                //     }
-                // });
-
                 mei.Events.subscribe("VerovioUpdated", function(newMei)
                 {
                     if(newMei === undefined) return;
-                    var startRow = 0;
                     var pageTitle = meiEditor.getActivePageTitle();
                     var editorRef = meiEditor.getPageData(pageTitle);
-                    while(editorRef.getSession().doc.getLine(startRow).match(/\?xml/g) !== null) startRow++;
+                    editorRef.parsed = meiParser.parseFromString(newMei, 'text/xml');
 
-                    var length = editorRef.session.doc.getLength();
-                    var aceRange = require('ace/range').Range;
-                    var range = new aceRange(startRow, 0, length, 0);
+                    rewriteAce(editorRef);
 
-                    editorRef.getSession().doc.replace(range, newMei);
-                    meiEditor.reparseAce(pageTitle);
                     if (recallID) 
                     {
                         meiEditor.gotoLineWithID(recallID);
